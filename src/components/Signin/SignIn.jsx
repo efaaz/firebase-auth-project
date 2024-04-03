@@ -1,22 +1,21 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import auth from '../../components/Firebase/firebase.init'
+import React, { useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { authProvider } from "../AuthProvider";
 
 function SignIn() {
+  const { signIn } = useContext(authProvider);
+  const navigate = useNavigate();
   const handleSignIn = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
+    signIn(email, password)
+      .then(() => {
+        e.target.reset();
+        navigate("/Dashbord");
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorMessage);
       });

@@ -1,8 +1,17 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { authProvider } from "../AuthProvider";
 
 function Navbar() {
+  const { user, logOut } = useContext(authProvider);
 
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <>
@@ -30,97 +39,142 @@ function Navbar() {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-          `mx-4 text-lg ${
-            isActive
-              ? "btn btn-outline btn-success font-semibold"
-              : "text-gray-700"
-          } `
-        }
-        >
-          Home
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/SignIn"
-          className={({ isActive }) =>
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
                     `mx-4 text-lg ${
                       isActive
                         ? "btn btn-outline btn-success font-semibold"
                         : "text-gray-700"
                     } `
                   }
-        >
-          Sign in
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/SignUp"
-          className={({ isActive }) =>
-          `mx-4 text-lg ${
-            isActive
-              ? "btn btn-outline btn-success font-semibold"
-              : "text-gray-700"
-          } `
-        }
-        >
-          Sign Up
-        </NavLink>
-      </li>
+                >
+                  Home
+                </NavLink>
+              </li>
+              {user && (
+                <li>
+                  <NavLink
+                    to="/Dashbord"
+                    className={({ isActive }) =>
+                      `mx-4 text-lg ${
+                        isActive
+                          ? "btn btn-outline btn-success font-semibold"
+                          : "text-gray-700"
+                      } `
+                    }
+                  >
+                    Dashbord
+                  </NavLink>
+                </li>
+              )}
+              <li>
+                <NavLink
+                  to="/SignIn"
+                  className={({ isActive }) =>
+                    `mx-4 text-lg ${
+                      isActive
+                        ? "btn btn-outline btn-success font-semibold"
+                        : "text-gray-700"
+                    } `
+                  }
+                >
+                  Sign in
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/SignUp"
+                  className={({ isActive }) =>
+                    `mx-4 text-lg ${
+                      isActive
+                        ? "btn btn-outline btn-success font-semibold"
+                        : "text-gray-700"
+                    } `
+                  }
+                >
+                  Sign Up
+                </NavLink>
+              </li>
             </ul>
           </div>
           <a className="btn btn-ghost text-xl">FireBase</a>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1"><li>
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
+          <ul className="menu menu-horizontal px-1">
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `mx-4 text-lg ${
+                    isActive
+                      ? "btn btn-outline btn-success font-semibold"
+                      : "text-gray-700"
+                  } `
+                }
+              >
+                Home
+              </NavLink>
+            </li>
+            {user && (
+              <li>
+                <NavLink
+                  to="/Dashbord"
+                  className={({ isActive }) =>
                     `mx-4 text-lg ${
                       isActive
                         ? "btn btn-outline btn-success font-semibold"
                         : "text-gray-700"
                     } `
                   }
-        >
-          Home
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/SignIn"
-          className={({ isActive }) =>
-                    `mx-4 text-lg ${
-                      isActive
-                        ? "btn btn-outline btn-success font-semibold"
-                        : "text-gray-700"
-                    } `
-                  }
-        >
-          Sign in
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="/SignUp"
-          className={({ isActive }) =>
-                    `mx-4 text-lg ${
-                      isActive
-                        ? "btn btn-outline btn-success font-semibold"
-                        : "text-gray-700"
-                    } `
-                  }
-        >
-          Sign Up
-        </NavLink>
-      </li></ul>
+                >
+                  Dashbord
+                </NavLink>
+              </li>
+            )}
+            <li>
+              <NavLink
+                to="/SignIn"
+                className={({ isActive }) =>
+                  `mx-4 text-lg ${
+                    isActive
+                      ? "btn btn-outline btn-success font-semibold"
+                      : "text-gray-700"
+                  } `
+                }
+              >
+                Sign in
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/SignUp"
+                className={({ isActive }) =>
+                  `mx-4 text-lg ${
+                    isActive
+                      ? "btn btn-outline btn-success font-semibold"
+                      : "text-gray-700"
+                  } `
+                }
+              >
+                Sign Up
+              </NavLink>
+            </li>
+          </ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Button</a>
+          {user ? (
+            <>
+              <span>{user.email}</span>
+              <button className="btn ml-4" onClick={handleLogOut}>
+                Log Out
+              </button>
+            </>
+          ) : (
+            <button className="btn ml-4" onClick={handleLogOut}>
+              <Link to="/SignIn">Log in</Link>
+            </button>
+          )}
         </div>
       </div>
     </>

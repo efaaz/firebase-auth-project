@@ -11,7 +11,7 @@ const firebaseConfig = {
   projectId: "fir-auth-project-f5265",
   storageBucket: "fir-auth-project-f5265.appspot.com",
   messagingSenderId: "57280855163",
-  appId: "1:57280855163:web:190f5c935269c26494b6de"
+  appId: "1:57280855163:web:190f5c935269c26494b6de",
 };
 
 // Initialize Firebase
@@ -19,4 +19,4 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
-export default auth
+export default auth;
